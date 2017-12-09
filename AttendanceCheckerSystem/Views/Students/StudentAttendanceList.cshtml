@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AttendanceCheckerSystem.Models.Student>
+@{
+    ViewData["Title"] = "View Student";
+}
+
+<h2>Students List</h2>
+
+@*Figure out how to make this work to show a list of students*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

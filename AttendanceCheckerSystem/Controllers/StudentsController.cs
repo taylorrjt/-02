@@ -25,6 +25,19 @@ namespace AttendanceCheckerSystem.Controllers
             return View(await _context.Students.ToListAsync());
         }
 
+        //Show Studet List
+        public async Task<IActionResult> StudentList()
+        {
+            var Student = await _context.Students.ToListAsync();
+            var sortedLname = Student.OrderBy(d => d.LastName);
+
+            return View(sortedLname);
+
+
+            //return View(await _context.Students.ToListAsync());
+        }
+
+
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -40,7 +53,23 @@ namespace AttendanceCheckerSystem.Controllers
                 return NotFound();
             }
 
-            return View(student);
+            ViewData["StudentInfo"] = student.LastName;
+
+
+            //This will populate the View Students page with Students.?????
+            var model = _context.AttendMeeting
+                .Join(_context.Students,
+                      s => s.StudentID,
+                      a => a.ID,
+                      ((Student, attend) => new AttendanceDetailViewModel { Student = student, Attend = Student }))
+                .Where(m => m.Attend.MeetingID == student.ID)
+                .OrderBy(m => m.Attend.MeetingID);
+
+            return View(model);
+
+
+
+            //return View(student);
         }
 
         // GET: Students/Create
